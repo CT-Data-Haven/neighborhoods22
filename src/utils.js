@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { format } from 'd3-format';
+import { scaleOrdinal } from 'd3-scale';
 
 const titleCase = (text) => {
     const words = _.words(text);
@@ -81,12 +82,12 @@ const prepTable = (data, meta) => {
         .keys()
         .without('level')
         .map((key) => {
-            const m = _.find(meta, { indicator: key }) || { indicator: key, display: titleCase(key)};
+            const m = _.find(meta, { indicator: key }) || { indicator: key, display: titleCase(key) };
             // isNumeric is true if m.format is defined
             const isNumeric = m.format ? true : false;
 
-            let col = { 
-                field: m.indicator, 
+            let col = {
+                field: m.indicator,
                 headerName: m.display,
                 valueFormatter: isNumeric ? format(m.format) : null,
                 type: isNumeric ? 'number' : 'string',
@@ -97,7 +98,7 @@ const prepTable = (data, meta) => {
                 }
             };
             col.minWidth = m.indicator === 'location' ? 180 : 80;
-            
+
             return col;
         })
         .value();
@@ -106,6 +107,16 @@ const prepTable = (data, meta) => {
         .map((d) => ({ id: d.location, ...d }))
         .value();
     return { columns, rows };
+};
+
+// order by indicator column descending
+const prepChart = (data, indicator) => {
+    return _.sortBy(data, [indicator]).reverse();
+};
+
+// split into series for chart
+const splitSeries = (data, nhood) => {
+    return _.partition(data, (d) => d.location === nhood);
 };
 
 const getTableRows = (rows) => {
@@ -118,7 +129,50 @@ const getTableRows = (rows) => {
     return pages;
 };
 
-// maybe need a prepFormats function?
+const getFormatter = (meta, indicator) => {
+    const m = _.find(meta, { indicator: indicator });
+    return format(m.format);
+};
+
+// replace multiple patterns in single string
+const abbr = (x, max) => {
+    // const max = 20;
+    const patts = [/South/g];
+    const repls = ['S.'];
+    if (x.length > max) {
+        return _.reduce(patts, (acc, patt, i) => {
+            return _.replace(acc, patt, repls[i]);
+        }, x);
+    } else {
+        return x;
+    }
+};
+
+const abbreviate = (max) => {
+    return (x) => abbr(x, max);
+};
+
+const makeBarFill = (data, pal, hilite) => {
+    // strings of levels
+    const levels = _.chain(data)
+        .map('level')
+        .uniq()
+        .value();
+    // parsed numbers from levels, drop neighborhood
+    const nums = _.chain(levels)
+        .map((d) => d[0])
+        .map((d) => _.parseInt(d))
+        .dropRight(1)
+        .value();
+    const baseCols = _.map(nums, (d) => pal[d - 1]);
+    const palette = _.concat(baseCols, hilite);
+    const color = scaleOrdinal(levels, palette);
+    return color;
+};
+
+const findNhood = (data, nhood) => {
+    return _.findIndex(data, { location: nhood }) + 1;
+};
 
 export {
     titleCase,
@@ -130,5 +184,11 @@ export {
     getNhoods,
     prepProfile,
     prepTable,
+    prepChart,
     getTableRows,
+    getFormatter,
+    abbreviate,
+    makeBarFill,
+    splitSeries,
+    findNhood,
 };

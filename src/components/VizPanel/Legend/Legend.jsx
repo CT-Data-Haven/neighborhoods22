@@ -1,5 +1,4 @@
 import React from 'react';
-import './Legend.scss';
 
 const Legend = () => {};
 

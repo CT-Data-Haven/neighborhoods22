@@ -1,4 +1,5 @@
 import { useState } from 'react';
+// helper functions
 import {
     prepCities,
     prepIndicators,
@@ -8,27 +9,40 @@ import {
     prepNhoods,
     prepProfile,
     prepTable,
-    getTableRows
+    prepChart,
+    getTableRows,
+    getFormatter,
+    abbreviate,
+    makeBarFill,
+    findNhood,
+    
 } from './utils';
-import _ from 'lodash';
+
+// library components
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
+import { useTheme } from '@mui/material/styles';
 
+// styling
 import './App.scss'
 
+// data
 import fullData from './data/nhood_wide_2022.json';
 import notes from './data/notes.json';
 import meta from './data/indicators.json';
 
+// bespoke components
 import Row from './components/Layout/Row/Row';
 import ControlPanel from './components/ControlPanel/ControlPanel';
 import Profile from './components/Profile/Profile';
 import DataTable from './components/DataTable/DataTable';
 import VizPanel from './components/VizPanel/VizPanel';
 
-function App() {
-    const cities = _.keys(fullData);
-    const topics = _.keys(meta);
+function App({ palette }) {
+    const theme = useTheme();
+
+    const cities = Object.keys(fullData);
+    const topics = Object.keys(meta);
     const views = ['map', 'chart'];
 
     // state
@@ -36,7 +50,7 @@ function App() {
     const [city, setCity] = useState(cities[0]);
     const [topic, setTopic] = useState(topics[0]);
     const [indicator, setIndicator] = useState(getMappable(meta[topic])[0]);
-    const [view, setView] = useState(views[0]);
+    const [view, setView] = useState(views[1]);
     const [page, setPage] = useState(defaultPage);
 
     const data = fullData[city][topic];
@@ -57,7 +71,6 @@ function App() {
     const handleCity = (value) => {
         setCity(value);
         nhoods = getNhoods(fullData[value][topic]);
-        console.log(nhoods);
         setNhood(nhoods[0]);
         setPage(defaultPage);
     };
@@ -83,10 +96,6 @@ function App() {
         setView(newValue);
     };
 
-    const handlePage = () => {
-
-    };
-
     const controlProps = {
         location: [
             { key: 'city', items: cityOptions, label: 'Select a city', selected: city, changeHandler: handleCity },
@@ -98,6 +107,14 @@ function App() {
         ]
     };
 
+    const chartData = prepChart(data, indicator);
+    const nhoodIdx = findNhood(chartData, nhood);
+
+    const barColors = { 
+        base: theme.palette.grey[500],
+        hilite: theme.palette.primary.main,
+    };
+
     return (
         <div className='App'>
             <Stack direction={'column'}>
@@ -107,11 +124,18 @@ function App() {
 
                 <Row xs={12} md={[7, 5]}>
                     <VizPanel
-                        indicator={indicatorLookup[indicator]}
-                        data={data}
+                        title={indicatorLookup[indicator]}
+                        indicator={indicator}
+                        data={chartData}
                         views={views}
                         view={view}
-                        changeHandler={handleView}
+                        viewChangeHandler={handleView}
+                        nhood={nhood}
+                        nhoodChangeHandler={handleNhood}
+                        formatter={getFormatter(meta[topic].indicators, indicator)}
+                        abbreviate={abbreviate}
+                        barColors={barColors}
+                        nhoodIdx={nhoodIdx}
                     />
                     <Profile
                         topic={topicLookup[topic]}

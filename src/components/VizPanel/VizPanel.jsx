@@ -1,16 +1,31 @@
 import React from "react";
-import Panel from '../Layout/Panel/Panel';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import Panel from '../Layout/Panel/Panel';
+import Chart from './Chart/Chart';
+import Map from './Map/Map';
 
-const VizPanel = ({ indicator, data, views, view, changeHandler }) => {
+const VizPanel = ({
+    title,
+    indicator,
+    data,
+    views, 
+    view, 
+    viewChangeHandler, 
+    nhoodChangeHandler,
+    formatter, 
+    abbreviate, 
+    barColors,
+    nhood,
+    nhoodIdx,
+}) => {
     return (
-        <Panel title={indicator}>
+        <Panel title={title}>
             <TabContext value={view}>
                 <TabList
-                    onChange={changeHandler}
+                    onChange={viewChangeHandler}
                     aria-label='Tabs to change visualization type'
                     selectionFollowsFocus
                 >
@@ -23,10 +38,18 @@ const VizPanel = ({ indicator, data, views, view, changeHandler }) => {
                     ))}
                 </TabList>
                 <TabPanel value='map' sx={{ minHeight: 200 }}>
-                    <div>map</div>
+                    <Map data={data} indicator={indicator} formatter={formatter} />
                 </TabPanel>
                 <TabPanel value='chart' sx={{ minHeight: 200 }}>
-                    <div>chart</div>
+                    <Chart
+                        data={data}
+                        indicator={indicator}
+                        formatter={formatter}
+                        abbreviate={abbreviate}
+                        colors={barColors}
+                        clickHandler={nhoodChangeHandler}
+                        nhoodIdx={nhoodIdx}
+                    />
                 </TabPanel>
             </TabContext>
         </Panel>
