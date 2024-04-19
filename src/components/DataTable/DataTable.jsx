@@ -7,7 +7,7 @@ const DataTable = ({ topic, nhood, data, pages, paginationModel, pageChangeHandl
     // console.log(data);
     const { columns, rows } = data;
     return (
-        <Panel title={`${topic} in detail`}>
+        <Panel heading={`${topic} by neighborhood`}>
             <DataGrid
                 rows={rows}
                 columns={columns}

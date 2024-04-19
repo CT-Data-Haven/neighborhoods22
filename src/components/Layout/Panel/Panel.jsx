@@ -5,10 +5,23 @@ import Typography from "@mui/material/Typography";
 import { styled } from '@mui/material/styles';
 
 const Panel = (props) => (
-    <Paper variant='outlined' {...props} sx={{ p: 1, m: 1, ...props.sx }}>
-        {props.title && (
-            <Typography variant={props.heading || 'h6'} sx={{ mb: 1 }}>
-                {props.title}
+    <Paper
+        variant='outlined'
+         sx={{
+            p: 1,
+            m: 1,
+            ...props.sx
+        }}
+        {...props}
+    >
+        {props.heading && (
+            <Typography 
+                variant={props.hLevel || 'h2'} 
+                sx={{ 
+                    m: 1,
+                }}
+            >
+                {props.heading}
             </Typography>
         )}
 
