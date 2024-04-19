@@ -1,9 +1,16 @@
 import React from 'react';
-import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import Panel from '../Layout/Panel/Panel';
 
-const DataTable = ({ topic, nhood, data, pages, paginationModel, pageChangeHandler, nhoodChangeHandler }) => {
+const DataTable = ({
+    topic,
+    nhood,
+    data,
+    pages,
+    paginationModel,
+    pageChangeHandler,
+    nhoodChangeHandler
+}) => {
     const { columns, rows } = data;
     return (
         <Panel heading={`${topic} by neighborhood`}>
@@ -20,7 +27,7 @@ const DataTable = ({ topic, nhood, data, pages, paginationModel, pageChangeHandl
                 }}
                 rowSelectionModel={nhood ? [nhood] : []}
                 density='compact'
-                sx={{ 
+                sx={{
                     fontSize: '0.8rem',
                     '& .MuiDataGrid-columnHeaderTitle': {
                         whiteSpace: 'normal',
@@ -32,7 +39,7 @@ const DataTable = ({ topic, nhood, data, pages, paginationModel, pageChangeHandl
                 keepNonExistentRowsSelected
                 disableColumnMenu
                 disableMultipleRowSelection
-                />
+            />
         </Panel>
     )
 };

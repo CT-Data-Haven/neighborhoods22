@@ -1,4 +1,3 @@
-import { useEffect, useState, useRef } from 'react';
 import Box from '@mui/material/Box';
 import { MapContainer } from 'react-leaflet/MapContainer';
 import { TileLayer } from 'react-leaflet/TileLayer';
@@ -44,14 +43,20 @@ const featureUnhilite = ({ target }) => {
     target.setStyle(baseStyles);
 };
 
-
-
-const ChoroInner = ({ layers, city, data, colorscale, makeTooltip, clickHandler, formatter, indicator }) => {
+const ChoroInner = ({ 
+    layers, 
+    city, 
+    data, 
+    colorscale, 
+    makeTooltip, 
+    clickHandler, 
+    formatter, 
+    indicator 
+}) => {
     
     const handleFeature = (feature, layer) => {
         layer.bindTooltip(() => {
-            const text = makeTooltip(data, feature.properties.name, formatter);
-            return text;
+            return makeTooltip(data, feature.properties.name, formatter);
         }, {
             direction: 'top',
             offset: [0, -20],
@@ -101,13 +106,13 @@ const ChoroInner = ({ layers, city, data, colorscale, makeTooltip, clickHandler,
 const Choropleth = ({
     data, 
     layers, 
-    bbox, 
     city, 
     colorscale, 
+    indicator,
+    formatter,
+    bbox, 
     makeTooltip, 
     clickHandler,
-    formatter,
-    indicator,
 }) => {
     // need everything to have city-indicator keys to force rerender
     return (
@@ -125,7 +130,6 @@ const Choropleth = ({
                     <ChoroInner
                         layers={layers}
                         city={city}
-                        bbox={bbox}
                         data={data}
                         colorscale={colorscale}
                         makeTooltip={makeTooltip}
@@ -135,7 +139,7 @@ const Choropleth = ({
                     />
                     <Legend colorscale={colorscale} formatter={formatter} />
                 </MapContainer>
-            ) : <div></div>}
+            ) : <div />}
         </Box>
     );
 };

@@ -5,8 +5,7 @@ import { titleCase, makeFormatter, } from './strings';
 export const getMappable = (json) => {
     const indicators = json.indicators; // array of objects
     const mappable = indicators.filter((d) => d.type === 'm');
-    const avail = mappable.map((indicator) => indicator.indicator);
-    return avail;
+    return mappable.map((indicator) => indicator.indicator);
 };
 
 export const prepProfile = (data, nhood, meta) => {
@@ -14,7 +13,7 @@ export const prepProfile = (data, nhood, meta) => {
         .find({ location: nhood })
         .omit(['level', 'location'])
         .value();
-    const profile = meta.map((indicator, i) => {
+    return meta.map((indicator, i) => {
         const value = nhoodData[indicator.indicator];
         const fmt = makeFormatter(indicator.format);
         return {
@@ -23,7 +22,6 @@ export const prepProfile = (data, nhood, meta) => {
             value: fmt(value)
         };
     });
-    return profile;
 };
 
 export const prepTable = (data, meta) => {
@@ -63,12 +61,11 @@ export const prepChart = (data, indicator) => {
 };
 
 export const prepMap = (data, indicator) => {
-    const values = _.chain(data)
+    return _.chain(data)
         .filter((d) => _.endsWith(d.level, 'neighborhood'))
         .keyBy('location')
         .mapValues(indicator)
         .value();
-    return values;
 };
 
 export const prepNotes = (notes, city) => {

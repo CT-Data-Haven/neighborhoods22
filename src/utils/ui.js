@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {titleCase} from './strings';
+import { titleCase } from './strings';
 
 // cities come in in snakecase---convert to title for label
 export const prepCities = (cities) => {
@@ -20,8 +20,7 @@ export const prepTopics = (json) => {
 };
 
 export const prepNhoods = (nhoods) => {
-    const options = nhoods.map((nhood) => ({ label: nhood, value: nhood }));
-    return options;
+    return nhoods.map((nhood) => ({ label: nhood, value: nhood }));
 };
 
 // similar to topics. indicators in 'indicators' slot
@@ -38,12 +37,10 @@ export const prepIndicators = (json) => {
 };
 
 export const getNhoods = (data) => {
-    let nhoods = _.chain(data)
-        // .filter((d) => _.endsWith(d.level, 'neighborhood'))
+    return _.chain(data)
         .map('location')
         .uniq()
         .value();
-    return nhoods;
 };
 
 export const findNhood = (data, nhood) => {

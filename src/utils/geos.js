@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { bbox, feature, mesh, merge } from 'topojson-client';
-import { scaleLinear, scaleQuantile } from 'd3-scale';
+import { scaleQuantile } from 'd3-scale';
 
 export const getBounds = (geo) => {
     const b = bbox(geo);

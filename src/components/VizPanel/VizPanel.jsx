@@ -3,20 +3,17 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import Skeleton from '@mui/material/Skeleton';
 import Panel from '../Layout/Panel/Panel';
 import Chart from './Chart/Chart';
 import Choropleth from "./Choropleth/Choropleth";
-import MapIcon from '@mui/icons-material/Map';
-import BarChartIcon from '@mui/icons-material/BarChart';
 
 const VizPanel = ({
     title,
     indicator,
     chartData,
     mapData,
-    layers,
     city,
+    layers,
     bbox,
     views,
     view,
@@ -26,7 +23,6 @@ const VizPanel = ({
     abbreviate,
     barColors,
     colorscale,
-    nhood,
     nhoodIdx,
     makeTooltip,
 }) => {
@@ -50,8 +46,8 @@ const VizPanel = ({
                             value={v.value}
                             icon={v.icon}
                             iconPosition='start'
-                            sx={{ 
-                                fontWeight: 'bold', 
+                            sx={{
+                                fontWeight: 'bold',
                                 '&.MuiTab-labelIcon': {
                                     minHeight: 'unset',
                                 }
@@ -61,16 +57,16 @@ const VizPanel = ({
                 </TabList>
                 <TabPanel value='map' sx={panelProps}>
                     <Choropleth
-                            data={mapData}
-                            layers={layers}
-                            city={city}
-                            colorscale={colorscale}
-                            indicator={indicator}
-                            formatter={formatter}
-                            bbox={bbox}
-                            makeTooltip={makeTooltip}
-                            clickHandler={nhoodChangeHandler}
-                        />
+                        data={mapData}
+                        layers={layers}
+                        city={city}
+                        colorscale={colorscale}
+                        indicator={indicator}
+                        formatter={formatter}
+                        bbox={bbox}
+                        makeTooltip={makeTooltip}
+                        clickHandler={nhoodChangeHandler}
+                    />
                 </TabPanel>
                 <TabPanel value='chart' sx={panelProps}>
                     <Chart

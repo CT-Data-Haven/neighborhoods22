@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState } from 'react';
 // helper functions
 import {
     prepCities,
@@ -23,9 +23,7 @@ import {
 } from './utils';
 
 // library components
-import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material/styles';
 import MapIcon from '@mui/icons-material/Map';
 import BarChartIcon from '@mui/icons-material/BarChart';
@@ -48,12 +46,6 @@ import VizPanel from './components/VizPanel/VizPanel';
 import Footer from './components/Layout/Footer/Footer';
 import Header from './components/Layout/Header/Header';
 
-// const shapes = {
-//     bridgeport: import('./data/shapes/bridgeport_topo.json'),
-//     hartford: import('./data/shapes/hartford_topo.json'),
-//     new_haven: import('./data/shapes/new_haven_topo.json'),
-//     stamford: import('./data/shapes/stamford_topo.json'),
-// };
 import shapes from './data/shapes';
 
 function App({ palette }) {
@@ -73,7 +65,6 @@ function App({ palette }) {
     const [indicator, setIndicator] = useState(getMappable(meta[topic])[0]);
     const [view, setView] = useState(views[0].value);
     const [page, setPage] = useState(defaultPage);
-    const [resolvedShape, setResolvedShape] = useState(null);
 
     const data = fullData[city][topic];
     let nhoods = getNhoods(data);
@@ -89,8 +80,6 @@ function App({ palette }) {
 
     let [indicatorOptions, indicatorLookup] = prepIndicators(meta[topic]);
     let indicators = getMappable(meta[topic]);
-
-
 
     // event handling
     const handleCity = (value) => {
@@ -140,11 +129,11 @@ function App({ palette }) {
         base: theme.palette.grey[500],
         hilite: theme.palette.primary.main,
     };
-    
+
     return (
         <div className='App'>
             <Container fixed>
-                
+
                 <Header heading={`${cityLookup[city]} Neighborhood Profiles`} />
 
                 <ControlPanel controlGrps={controlProps} />
@@ -156,14 +145,11 @@ function App({ palette }) {
                         chartData={chartData}
                         mapData={mapData}
                         city={city}
-                        // geo={resolvedShape ? makeGeoLayers(resolvedShape) : null}
-                        // bbox={resolvedShape ? getBounds(resolvedShape) : null}
                         layers={makeGeoLayers(shapes[city])}
                         bbox={getBounds(shapes[city])}
                         views={views}
                         view={view}
                         viewChangeHandler={handleView}
-                        nhood={nhood}
                         nhoodChangeHandler={handleNhood}
                         formatter={getFormatter(meta[topic].indicators, indicator)}
                         abbreviate={abbreviate}
@@ -188,9 +174,8 @@ function App({ palette }) {
                     nhoodChangeHandler={handleNhood}
                 />
 
-                <Footer 
-                    city={city} 
-                    cityName={cityLookup[city]} 
+                <Footer
+                    cityName={cityLookup[city]}
                     dwBase={'https://data.world/ctdatahaven/datahaven-profiles-2022'}
                     ghBase={'https://github.com/CT-Data-Haven/nhood_profile_data22/blob/main/to_distro'}
                     csvFn={`${city}_nhood_2022_acs_health_comb.csv`}

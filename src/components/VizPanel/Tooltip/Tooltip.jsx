@@ -23,7 +23,7 @@ const Tooltip = ({ axisData, series }) => {
             spacing={1}
         >
             <Box>{loc}: </Box>
-            <Box sx={{ fontWeight: 'bold',  }}>{formatter(value)}</Box>
+            <Box sx={{ fontWeight: 'bold', }}>{formatter(value)}</Box>
         </Stack>
     );
 };

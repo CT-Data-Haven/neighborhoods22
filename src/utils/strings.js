@@ -20,7 +20,7 @@ export const makeFormatter = (formatStr) => {
 };
 
 export const getFormatter = (meta, indicator) => {
-    const m = _.find(meta, { indicator: indicator });
+    const m = _.find(meta, { indicator });
     return makeFormatter(m.format);
 };
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { StyledEngineProvider, createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { schemeBuPu,  schemeRdPu, schemeGreys } from 'd3-scale-chromatic';
+import { schemeBuPu, schemeGreys } from 'd3-scale-chromatic';
 
 import App from './App.jsx';
 
@@ -20,7 +20,6 @@ import 'leaflet/dist/leaflet.css';
 const rootElement = document.getElementById('root');
 
 const palette = schemeBuPu[5];
-const grays = schemeGreys[5];
 const hilite = palette[3];
 
 const theme = createTheme({
@@ -66,12 +65,12 @@ const theme = createTheme({
         primary: {
             main: hilite,
         },
-       secondary: {
+        secondary: {
             main: palette[4],
-       },
-    background: {
-        default: '#fcfcfc',
-        }, 
+        },
+        background: {
+            default: '#fcfcfc',
+        },
     }
 });
 

@@ -63,12 +63,19 @@ const Source = ({ project, source, url, year }) => {
     );
 };
 
-
-
-const Footer = ({ city, cityName, dwBase, ghBase, csvFn, dwSlug, geography, sources }) => {
+const Footer = ({
+    cityName,
+    dwBase,
+    ghBase,
+    csvFn,
+    dwSlug,
+    geography,
+    sources
+}) => {
     return (
         <Panel heading={`Notes`}>
-            <Stack direction='column' 
+            <Stack
+                direction='column'
                 spacing={1}
                 divider={<Divider aria-hidden='true' variant='middle' />}
                 sx={{
