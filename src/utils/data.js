@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import { format } from 'd3-format';
-import { titleCase } from './strings';
+import { titleCase, makeFormatter, } from './strings';
 
 // filter for indicators with type m
 export const getMappable = (json) => {
@@ -17,7 +16,7 @@ export const prepProfile = (data, nhood, meta) => {
         .value();
     const profile = meta.map((indicator, i) => {
         const value = nhoodData[indicator.indicator];
-        const fmt = format(indicator.format);
+        const fmt = makeFormatter(indicator.format);
         return {
             id: i,
             indicator: indicator.display,
@@ -39,11 +38,10 @@ export const prepTable = (data, meta) => {
             let col = {
                 field: m.indicator,
                 headerName: m.display,
-                valueFormatter: isNumeric ? format(m.format) : null,
+                valueFormatter: isNumeric ? makeFormatter(m.format) : null,
                 type: isNumeric ? 'number' : 'string',
                 flex: 1,
                 renderHeader: (params) => {
-                    // console.log(params);
                     return (params.headerName)
                 }
             };
@@ -62,6 +60,22 @@ export const prepTable = (data, meta) => {
 // order by indicator column descending
 export const prepChart = (data, indicator) => {
     return _.sortBy(data, [indicator]).reverse();
+};
+
+export const prepMap = (data, indicator) => {
+    const values = _.chain(data)
+        .filter((d) => _.endsWith(d.level, 'neighborhood'))
+        .keyBy('location')
+        .mapValues(indicator)
+        .value();
+    return values;
+};
+
+export const prepNotes = (notes, city) => {
+    const dwSlug = notes.dwurls[city];
+    const geography = notes.geography[city];
+    const sources = notes.sources;
+    return { dwSlug, geography, sources };
 };
 
 // split into series for chart

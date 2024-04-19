@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { format } from 'd3-format';
+import { formatLocale } from 'd3-format';
 
 // convert snakecase to title case
 export const titleCase = (text) => {
@@ -8,9 +8,20 @@ export const titleCase = (text) => {
     return titleWords.join(' ');
 };
 
+export const makeFormatter = (formatStr) => {
+    const locale = formatLocale({
+        decimal: '.',
+        thousands: ',',
+        grouping: [3],
+        currency: ['$', ''],
+        nan: 'N/A',
+    });
+    return locale.format(formatStr);
+};
+
 export const getFormatter = (meta, indicator) => {
     const m = _.find(meta, { indicator: indicator });
-    return format(m.format);
+    return makeFormatter(m.format);
 };
 
 // replace multiple patterns in single string
