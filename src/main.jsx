@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { StyledEngineProvider, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { schemePuBuGn, schemeRdPu, schemeGreys } from 'd3-scale-chromatic';
+import { schemeBuPu,  schemeRdPu, schemeGreys } from 'd3-scale-chromatic';
 
 import App from './App.jsx';
 
@@ -15,13 +15,13 @@ import '@fontsource/barlow-semi-condensed/600.css';
 import '@fontsource/barlow-semi-condensed/700.css';
 
 import './index.css';
+import 'leaflet/dist/leaflet.css';
 
 const rootElement = document.getElementById('root');
 
-const palette = schemePuBuGn[5];
+const palette = schemeBuPu[5];
 const grays = schemeGreys[5];
 const hilite = palette[3];
-const gray = grays[3];
 
 const theme = createTheme({
     components: {
@@ -34,20 +34,44 @@ const theme = createTheme({
             defaultProps: {
                 container: rootElement,
             }
-        }
+        },
+        MuiLink: {
+            defaultProps: {
+                fontWeight: 700,
+            },
+        },
     },
     typography: {
         fontFamily: 'Barlow, sans-serif',
         fontWeightBold: 600,
+        h1: {
+            fontWeight: 700,
+            fontSize: '2rem',
+            marginTop: '1rem',
+            marginBottom: '1rem',
+        },
         h2: {
-            fontWeight: 600
-        }
+            fontWeight: 600,
+            fontSize: '1.35rem',
+        },
+        h3: {
+            fontWeight: 600,
+            fontSize: '1.1rem',
+        },
+        body1: {
+            marginBottom: '0.5rem',
+        },
     },
     palette: {
         primary: {
             main: hilite,
         },
-        
+       secondary: {
+            main: palette[4],
+       },
+    background: {
+        default: '#fcfcfc',
+        }, 
     }
 });
 
