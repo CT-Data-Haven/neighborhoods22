@@ -4,7 +4,6 @@ import { DataGrid } from '@mui/x-data-grid';
 import Panel from '../Layout/Panel/Panel';
 
 const DataTable = ({ topic, nhood, data, pages, paginationModel, pageChangeHandler, nhoodChangeHandler }) => {
-    // console.log(data);
     const { columns, rows } = data;
     return (
         <Panel heading={`${topic} by neighborhood`}>
@@ -14,9 +13,10 @@ const DataTable = ({ topic, nhood, data, pages, paginationModel, pageChangeHandl
                 pageSizeOptions={pages}
                 paginationModel={paginationModel}
                 onPaginationModelChange={pageChangeHandler}
-                onRowSelectionModelChange={(nhood) => {
-                    nhoodChangeHandler(nhood[0]);
-                    // console.log(nhood);
+                onRowSelectionModelChange={(nhood, det) => {
+                    if (nhood.length) {
+                        nhoodChangeHandler(nhood[0]);
+                    }
                 }}
                 rowSelectionModel={nhood ? [nhood] : []}
                 density='compact'
@@ -31,6 +31,7 @@ const DataTable = ({ topic, nhood, data, pages, paginationModel, pageChangeHandl
                 hideFooterSelectedRowCount
                 keepNonExistentRowsSelected
                 disableColumnMenu
+                disableMultipleRowSelection
                 />
         </Panel>
     )
