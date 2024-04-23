@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { bbox, feature, mesh, merge } from 'topojson-client';
-import { scaleQuantile } from 'd3-scale';
+import { scaleQuantile, scaleSequentialQuantile } from 'd3-scale';
+import { interpolateBuPu } from 'd3-scale-chromatic';
 
 export const getBounds = (geo) => {
     const b = bbox(geo);
@@ -15,8 +16,17 @@ export const makeGeoLayers = (shp) => {
     return { nhoods, meshed, merged };
 };
 
-export const makeChoroScale = (data, palette, nBrks) => {
+const quantBreaks = (data) => {
+    // decide how many breaks to use depending on number of unique values
+    const unique = _.uniq(data);
+    const n = unique.length || 5;
+    return n < 5 ? 3 : 5;
+};
+
+export const makeChoroScale = (data, scheme) => {
     const vals = _.values(data);
+    const nBrks = quantBreaks(vals);
+    const palette = scheme[nBrks];
     return scaleQuantile()
         .domain([_.min(vals), _.max(vals)])
         .range(palette)

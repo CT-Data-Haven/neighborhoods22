@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { schemeBuPu, schemeGreys } from 'd3-scale-chromatic';
+import { schemeBuPu, interpolateBuPu } from 'd3-scale-chromatic';
 
 import App from './App.jsx';
 
@@ -19,7 +19,8 @@ import 'leaflet/dist/leaflet.css';
 
 const rootElement = document.getElementById('root');
 
-const palette = schemeBuPu[5];
+const scheme = schemeBuPu;
+const palette = scheme[5];
 const hilite = palette[3];
 
 const theme = createTheme({
@@ -45,17 +46,17 @@ const theme = createTheme({
         fontWeightBold: 600,
         h1: {
             fontWeight: 700,
-            fontSize: '2rem',
+            fontSize: '1.6rem',
             marginTop: '1rem',
             marginBottom: '1rem',
         },
         h2: {
             fontWeight: 600,
-            fontSize: '1.35rem',
+            fontSize: '1.2rem',
         },
         h3: {
             fontWeight: 600,
-            fontSize: '1.1rem',
+            fontSize: '1.05rem',
         },
         body1: {
             marginBottom: '0.5rem',
@@ -78,7 +79,7 @@ ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <App palette={palette} />
+            <App scheme={scheme} />
         </ThemeProvider>
     </React.StrictMode>
 );

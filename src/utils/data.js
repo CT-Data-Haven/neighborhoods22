@@ -16,10 +16,12 @@ export const prepProfile = (data, nhood, meta) => {
     return meta.map((indicator, i) => {
         const value = nhoodData[indicator.indicator];
         const fmt = makeFormatter(indicator.format);
+        const valType = indicator.format === ',' ? 'count' : 'percent';
         return {
             id: i,
             indicator: indicator.display,
-            value: fmt(value)
+            value: fmt(value),
+            type: valType,
         };
     });
 };
@@ -41,9 +43,9 @@ export const prepTable = (data, meta) => {
                 flex: 1,
                 renderHeader: (params) => {
                     return (params.headerName)
-                }
+                },
             };
-            col.minWidth = m.indicator === 'location' ? 180 : 80;
+            col.minWidth = m.indicator === 'location' ? 180 : 100;
 
             return col;
         })

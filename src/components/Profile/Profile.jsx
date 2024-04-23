@@ -13,8 +13,12 @@ const Profile = ({ topic, nhood, data }) => (
                 <TableBody>
                     {data.map((row) => (
                         <TableRow key={row.id}>
-                            <TableCell sx={{ fontWeight: 'medium' }}>{row.indicator}</TableCell>
-                            <TableCell align='right'>{row.value}</TableCell>
+                            <TableCell sx={{ 
+                                fontWeight: 'medium' 
+                            }}>{row.indicator}</TableCell>
+                            <TableCell 
+                                align='right'
+                            >{row.value}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

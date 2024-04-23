@@ -31,9 +31,24 @@ const DataTable = ({
                     fontSize: '0.8rem',
                     '& .MuiDataGrid-columnHeaderTitle': {
                         whiteSpace: 'normal',
-                    }
+                        lineHeight: '1.1em',
+                        py: '0.3rem',
+                        // overflow: 'visible',
+                    },
+                    '& .MuiDataGrid-columnHeader': {
+                        height: 'unset !important',
+                        alignSelf: 'end',
+                    },
+                    '& .MuiDataGrid-columnHeaders': {
+                        maxHeight: '8rem !important',
+                    },
+                    '& .MuiDataGrid-columnHeaderRow': {
+                        // alignItems: 'flex-end',
+                    },
                 }}
                 autoHeight
+                autosizeOnMount
+                autosizeOptions={{ expand: true, includeHeaders: true}}
                 disableColumnSelector
                 hideFooterSelectedRowCount
                 keepNonExistentRowsSelected

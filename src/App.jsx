@@ -48,7 +48,7 @@ import Header from './components/Layout/Header/Header';
 
 import shapes from './data/shapes';
 
-function App({ palette }) {
+function App({ scheme }) {
     const theme = useTheme();
 
     const cities = Object.keys(fullData);
@@ -134,7 +134,7 @@ function App({ palette }) {
         <div className='App'>
             <Container fixed>
 
-                <Header heading={`${cityLookup[city]} Neighborhood Profiles`} />
+                <Header heading={`Connecticut City Neighborhood Profiles`} />
 
                 <ControlPanel controlGrps={controlProps} />
 
@@ -154,7 +154,7 @@ function App({ palette }) {
                         formatter={getFormatter(meta[topic].indicators, indicator)}
                         abbreviate={abbreviate}
                         barColors={barColors}
-                        colorscale={makeChoroScale(mapData, palette, 5)}
+                        colorscale={makeChoroScale(mapData, scheme)}
                         nhoodIdx={nhoodIdx}
                         makeTooltip={makeTooltip}
                     />
