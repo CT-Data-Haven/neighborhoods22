@@ -6,17 +6,19 @@
 # * shapes from scratchpad
 
 datarepo="CT-Data-Haven/nhood_profile_data22"
-toporepo="CT-Data-Haven/scratchpad"
+# toporepo="CT-Data-Haven/scratchpad"
 
 datatag="viz"
-topotag="geos"
+# topotag="geos"
 
 gh release download "$datatag" \
   --repo "$datarepo" \
   --dir src/data \
   --clobber
 
-gh release download "$topotag" \
-  --repo "$toporepo" \
-  --dir src/data/shapes \
-  --clobber
+mv src/data/*_topo.json src/data/shapes
+
+# gh release download "$topotag" \
+  # --repo "$toporepo" \
+  # --dir src/data/shapes \
+  # --clobber

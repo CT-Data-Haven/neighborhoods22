@@ -32,7 +32,7 @@ const Geography = ({ geography }) => {
     return (
         <FooterRow heading='Geography'>
             <Typography>
-                Neighborhood boundaries are created by DataHaven based on consultations with municipal government about current designations.
+                Neighborhood boundaries are based on each city's boundary shapefiles available on their respective open data portals.
             </Typography>
             {geography && <Typography>
                 {`${geography.region} is defined as ${geography.def}.`}
